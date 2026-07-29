@@ -9,6 +9,41 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [activeSection, setActiveSection] = useState('home')
 
   useEffect(() => {
+    function App() {
+  // Yeh raha security code jo background mein chalega
+  useEffect(() => {
+    // 1. Right-click disable karne ke liye
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault();
+    
+    // 2. F12, Ctrl+U, Ctrl+Shift+I jaise shortcuts block karne ke liye
+    const handleKeyDown = (keyboardEvent: KeyboardEvent) => {
+      if (
+        keyboardEvent.key === 'F12' || 
+        (keyboardEvent.ctrlKey && keyboardEvent.shiftKey && (keyboardEvent.key === 'I' || keyboardEvent.key === 'J' || keyboardEvent.key === 'C')) || 
+        (keyboardEvent.ctrlKey && keyboardEvent.key === 'U')
+      ) {
+        keyboardEvent.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Clean up function
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  return (
+    <div>
+      {/* Aapka baaki sara portfolio ka code yahan pehle se hoga */}
+    </div>
+  );
+}
+
+export default App;
     const onScroll = () => {
       setScrolled(window.scrollY > 40)
 

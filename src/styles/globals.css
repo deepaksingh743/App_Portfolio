@@ -11,6 +11,9 @@
 }
 
 body {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none;     /* Edge */
+  user-select: none;       /* Normal text copy rokne ke liye */
   @apply bg-ink-950 text-ink-100 font-sans antialiased;
   overflow-x: hidden;
 }
