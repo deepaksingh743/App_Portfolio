@@ -1,107 +1,31 @@
-import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
-import { navLinks } from '../store/portfolio-store'
-import { scrollToSection, cn } from '../utils/utils'
-
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('home')
-
-  useEffect(() => {
-    // 1. Right-click disable karne ke liye
-    const handleContextMenu = (e: MouseEvent) => e.preventDefault();
-    
-    // 2. F12, Ctrl+U, Ctrl+Shift+I jaise shortcuts block karne ke liye
-    const handleKeyDown = (keyboardEvent: KeyboardEvent) => {
-      if (
-        keyboardEvent.key === 'F12' ||
-        (keyboardEvent.ctrlKey && keyboardEvent.shiftKey && keyboardEvent.key === 'I') ||
-        (keyboardEvent.ctrlKey && keyboardEvent.key === 'U')
-      ) {
-        keyboardEvent.preventDefault();
-      }
-    };
-
-    window.addEventListener('contextmenu', handleContextMenu);
-    window.addEventListener('keydown', handleKeyDown);
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
-    }
-    window.addEventListener('scroll', handleScroll)
-    
-    return () => {
-      window.removeEventListener('contextmenu', handleContextMenu);
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
-      {/* Navbar */}
-      <header className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-        scrolled ? "bg-slate-900/80 backdrop-blur-md border-slate-800 shadow-lg" : "bg-transparent"
-      )}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent cursor-pointer" onClick={() => scrollToSection('home')}>
-            Data Analyst Portfolio
-          </span>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setActiveSection(link.id);
-                  scrollToSection(link.id);
-                }}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-cyan-400",
-                  activeSection === link.id ? "text-cyan-400" : "text-slate-300"
-                )}
-              >
-                {link.name}
-              </button>
-            ))}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-slate-300 hover:text-white"
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Nav Drawer */}
-        {mobileOpen && (
-          <div className="md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setActiveSection(link.id);
-                  scrollToSection(link.id);
-                  setMobileOpen(false);
-                }}
-                className="block w-full text-left px-3 py-2 text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50 rounded-md"
-              >
-                {link.name}
-              </button>
-            ))}
-          </div>
-        )}
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-grow pt-20">
-        {children}
-      </main>
-    </div>
-  )
+{
+  "name": "data-analyst-portfolio",
+  "private": true,
+  "version": "1.0.1",
+  "type": "module",
+ "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "lucide-react": "^0.439.0",
+    "framer-motion": "^11.5.0",
+    "recharts": "^2.12.7",
+    "@supabase/supabase-js": "^2.45.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "tailwindcss": "^3.4.10",
+    "postcss": "^8.4.41",
+    "autoprefixer": "^10.4.20"
+  }
 }
+
+
